@@ -3,9 +3,12 @@ using DotnetAPI.Dtos;
 using System.Security.Cryptography;
 using System.Text;
 using System.Data;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace DotnetAPI.Controllers
 {
@@ -59,7 +62,26 @@ namespace DotnetAPI.Controllers
 
                     if(_dapper.ExecuteSqlWithParameters(sqlAddAuth , sqlParameters))
                     {
-                        return Ok();
+                        /* creamos el usuario */
+                        string sqlAddUser = @"
+                        INSERT TutorialAppSchema.Users
+                            (
+                                [FirstName],
+                                [LastName],
+                                [Email],
+                                [Gender],
+                                [Active]
+                            )VALUES('" + userForRegistration.FirstName + 
+                            "', '" + userForRegistration.FirstName +  
+                            "', '" + userForRegistration.Email +  
+                            "', '" + userForRegistration.Gender + 
+                        "' , 1)";
+
+                        if ( _dapper.ExecuteSql(sqlAddUser) )
+                        {
+                            return Ok();
+                        }
+                        throw new Exception("Failed to add user . ");
                     }
 
                     throw new Exception("Failed to register user . ");
@@ -92,7 +114,19 @@ namespace DotnetAPI.Controllers
                 }
             }
 
-            return Ok();
+
+
+            /* obtenemos el userId desde la base de datos */
+            string userIdSql = @"
+                SELECT UserId FROM TutorialAppSchema.Users WHERE Email = '" +
+                userForLogin.Email + "'";
+
+            int userId = _dapper.LoadDataSingle<int>(userIdSql);
+
+            return Ok(new Dictionary<string, string>
+            {
+                {"token" , CreateToken(userId)}
+            }); ;
         }
 
         private byte[] GetPasswordHash(string password, byte[] passwordSalt)
@@ -109,5 +143,40 @@ namespace DotnetAPI.Controllers
             );
         }
 
+        /************************** FOR JWT ***************************/
+        private string CreateToken(int userId)
+        {
+            Claim[] claims = new Claim[] {
+                new Claim("userId" , userId.ToString())
+            };
+
+            /* simetric key */
+            SymmetricSecurityKey tokenKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:TokenKey").Value
+                )
+            );
+            
+            /* Signing credentials */
+            SigningCredentials credentials = new SigningCredentials(
+                tokenKey, SecurityAlgorithms.HmacSha512Signature
+            );
+
+            /* securityTokenDescriptor */
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor()
+            {
+                 Subject = new ClaimsIdentity( claims ),
+                 SigningCredentials = credentials,
+                 Expires = DateTime.Now.AddDays( 1 )
+            };
+
+            /* manejador */
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            
+            /* store token as a token */
+            SecurityToken token = tokenHandler.CreateToken( descriptor );
+
+            /* returning as a string */
+            return tokenHandler.WriteToken(token);
+        }
     }
 }
