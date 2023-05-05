@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using DotnetAPI.Models;
-using System.Reflection.Emit;
 
 namespace DotnetAPI.Data
 {

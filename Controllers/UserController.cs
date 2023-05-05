@@ -55,7 +55,7 @@ public class UserController : ControllerBase
         .ToArray(); */
     }
 
-    [HttpGet("GetSingelUser/{userId}")] 
+    [HttpGet("GetSingleUser/{userId}")] 
     //en c# al declarar un método primero es la visibilidad , tipo del valor a retornar y nombre
     // osea en te caso public , tipo modelo Users y el nombre
     public User GetSingleUser(int userId)
@@ -163,7 +163,7 @@ public class UserController : ControllerBase
         throw new Exception("Filed to add user");
     }
 
-    [HttpDelete("GetSingelUser/{userId}")]
+    [HttpDelete("GetSingleUser/{userId}")]
     public string /* IAsyncResult */ DeleteUser(int userId)
     {
         string sql = @"

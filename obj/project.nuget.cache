@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RorMAYHYJzQGE6c9M/baqBlkKKB9XfHSsMt+u7XDJ5o8YdjpBsgOqwtQUYHeZjCxDj8N8xJj+vz4etbK0I5sVA==",
+  "dgSpecHash": "MR6dfqcw+tJZIQyQxWUT3stiMdd3fg+yc+B+mmrQPc8Rf251kuzNkZRUTI1VH47PIH2mKxI3j7qv0qovJYzB9w==",
   "success": true,
   "projectFilePath": "C:\\Users\\ChristianGarciaMarti\\Desktop\\dotnet\\console\\DotnetAPI\\DotnetAPI.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
     "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
+    "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.5\\microsoft.aspnetcore.authentication.jwtbearer.7.0.5.nupkg.sha512",
     "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.4\\microsoft.aspnetcore.openapi.7.0.4.nupkg.sha512",
     "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\ChristianGarciaMarti\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
